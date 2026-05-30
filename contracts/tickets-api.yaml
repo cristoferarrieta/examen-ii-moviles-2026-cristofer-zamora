@@ -1,0 +1,210 @@
+openapi: 3.0.3
+info:
+  title: Panini Support Tickets API
+  version: 1.0.0
+  description: API contract prepared for the Panini provider support ticket PoC.
+servers:
+  - url: https://api.example.com
+paths:
+  /api/v1/auth/login:
+    post:
+      summary: Simulated provider support login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: Login accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+  /api/v1/tickets:
+    get:
+      summary: List support tickets
+      responses:
+        "200":
+          description: Ticket list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TicketResponse"
+    post:
+      summary: Create support ticket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTicketRequest"
+      responses:
+        "201":
+          description: Ticket created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+  /api/v1/tickets/{ticketId}:
+    get:
+      summary: Get ticket detail
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      responses:
+        "200":
+          description: Ticket detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketResponse"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /api/v1/tickets/{ticketId}/status:
+    patch:
+      summary: Update ticket status
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTicketStatusRequest"
+      responses:
+        "200":
+          description: Ticket updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketResponse"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /api/v1/tickets/{ticketId}/priority:
+    patch:
+      summary: Update ticket priority
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTicketPriorityRequest"
+      responses:
+        "200":
+          description: Ticket updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketResponse"
+        "404":
+          $ref: "#/components/responses/NotFound"
+components:
+  parameters:
+    TicketId:
+      name: ticketId
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+  schemas:
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+    LoginResponse:
+      type: object
+      required: [token, userEmail]
+      properties:
+        token:
+          type: string
+        userEmail:
+          type: string
+    TicketResponse:
+      type: object
+      required: [id, title, description, providerName, category, priority, status, createdDate]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        providerName:
+          type: string
+        category:
+          $ref: "#/components/schemas/TicketCategory"
+        priority:
+          $ref: "#/components/schemas/TicketPriority"
+        status:
+          $ref: "#/components/schemas/TicketStatus"
+        createdDate:
+          type: string
+          format: date
+    CreateTicketRequest:
+      type: object
+      required: [title, description, providerName, category, priority]
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        providerName:
+          type: string
+        category:
+          $ref: "#/components/schemas/TicketCategory"
+        priority:
+          $ref: "#/components/schemas/TicketPriority"
+    UpdateTicketStatusRequest:
+      type: object
+      required: [status]
+      properties:
+        status:
+          $ref: "#/components/schemas/TicketStatus"
+    UpdateTicketPriorityRequest:
+      type: object
+      required: [priority]
+      properties:
+        priority:
+          $ref: "#/components/schemas/TicketPriority"
+    ErrorResponse:
+      type: object
+      required: [message]
+      properties:
+        message:
+          type: string
+    TicketCategory:
+      type: string
+      enum: [INVENTORY, DISTRIBUTION, MISSING_PACKAGES, DAMAGED_PRODUCT, LOGISTICS, PROVIDER_SUPPORT]
+    TicketPriority:
+      type: string
+      enum: [LOW, MEDIUM, HIGH]
+    TicketStatus:
+      type: string
+      enum: [OPEN, IN_PROGRESS, RESOLVED, CLOSED]
