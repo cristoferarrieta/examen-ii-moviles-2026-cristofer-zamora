@@ -36,11 +36,11 @@ fun LoginScreen(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Panini Provider Support",
+                text = "Soporte a proveedores Panini",
                 style = MaterialTheme.typography.headlineMedium
             )
             Text(
-                text = "FIFA World Cup 2026 ticket console",
+                text = "Consola de tickets del álbum FIFA World Cup 2026",
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -49,7 +49,7 @@ fun LoginScreen(
                 value = state.email,
                 onValueChange = viewModel::onEmailChanged,
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text("Email") },
+                label = { Text("Correo electrónico") },
                 singleLine = true
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -57,7 +57,7 @@ fun LoginScreen(
                 value = state.password,
                 onValueChange = viewModel::onPasswordChanged,
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text("Password") },
+                label = { Text("Contraseña") },
                 singleLine = true,
                 visualTransformation = PasswordVisualTransformation()
             )
@@ -78,7 +78,7 @@ fun LoginScreen(
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Login")
+                Text("Iniciar sesión")
             }
         }
     }

@@ -43,10 +43,10 @@ fun CreateTicketScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Create Ticket") },
+                title = { Text("Crear ticket") },
                 navigationIcon = {
                     TextButton(onClick = onBack) {
-                        Text("Back")
+                        Text("Volver")
                     }
                 }
             )
@@ -60,26 +60,26 @@ fun CreateTicketScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
-            SectionTitle("Ticket Information")
+            SectionTitle("Información del ticket")
             OutlinedTextField(
                 value = state.title,
                 onValueChange = viewModel::onTitleChanged,
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text("Title") },
+                label = { Text("Título") },
                 singleLine = true
             )
             OutlinedTextField(
                 value = state.providerName,
                 onValueChange = viewModel::onProviderNameChanged,
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text("Provider name") },
+                label = { Text("Proveedor") },
                 singleLine = true
             )
             OutlinedTextField(
                 value = state.description,
                 onValueChange = viewModel::onDescriptionChanged,
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text("Description") },
+                label = { Text("Descripción") },
                 minLines = 4
             )
             CategorySelector(
@@ -105,7 +105,7 @@ fun CreateTicketScreen(
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Save Ticket")
+                Text("Guardar ticket")
             }
         }
     }
@@ -119,7 +119,7 @@ private fun CategorySelector(
     var expanded by remember { mutableStateOf(false) }
 
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text("Category", style = MaterialTheme.typography.labelLarge)
+        Text("Categoría", style = MaterialTheme.typography.labelLarge)
         OutlinedButton(onClick = { expanded = true }) {
             Text(selectedCategory.displayName)
         }
@@ -145,7 +145,7 @@ private fun PrioritySelector(
     var expanded by remember { mutableStateOf(false) }
 
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text("Priority", style = MaterialTheme.typography.labelLarge)
+        Text("Prioridad", style = MaterialTheme.typography.labelLarge)
         OutlinedButton(onClick = { expanded = true }) {
             Text(selectedPriority.displayName)
         }

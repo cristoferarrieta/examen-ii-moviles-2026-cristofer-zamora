@@ -37,7 +37,7 @@ fun TicketListScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Support Tickets") })
+            TopAppBar(title = { Text("Tickets de soporte") })
         },
         floatingActionButton = {
             if (FeatureFlags.enableTicketCreation) {
@@ -70,7 +70,7 @@ private fun TicketListContent(
 ) {
     if (tickets.isEmpty()) {
         EmptyState(
-            message = "No provider support tickets yet.",
+            message = "No hay tickets disponibles.",
             modifier = modifier.fillMaxSize()
         )
         return

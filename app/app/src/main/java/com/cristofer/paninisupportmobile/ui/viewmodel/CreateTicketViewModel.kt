@@ -44,8 +44,15 @@ class CreateTicketViewModel(
 
     fun saveTicket(): Boolean {
         val state = _uiState.value
-        if (state.title.isBlank() || state.description.isBlank() || state.providerName.isBlank()) {
-            _uiState.value = state.copy(errorMessage = "Title, description, and provider are required.")
+        val errorMessage = when {
+            state.title.isBlank() -> "El título es obligatorio."
+            state.providerName.isBlank() -> "El proveedor es obligatorio."
+            state.description.isBlank() -> "La descripción es obligatoria."
+            else -> null
+        }
+
+        if (errorMessage != null) {
+            _uiState.value = state.copy(errorMessage = errorMessage)
             return false
         }
 

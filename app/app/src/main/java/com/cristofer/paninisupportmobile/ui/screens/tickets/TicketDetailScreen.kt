@@ -50,10 +50,10 @@ fun TicketDetailScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Ticket Detail") },
+                title = { Text("Detalle del ticket") },
                 navigationIcon = {
                     TextButton(onClick = onBack) {
-                        Text("Back")
+                        Text("Volver")
                     }
                 }
             )
@@ -98,18 +98,18 @@ private fun TicketDetailContent(
             TicketPriorityBadge(priority = ticket.priority)
             TicketStatusBadge(status = ticket.status)
         }
-        SectionTitle("Information")
-        DetailRow(label = "Provider", value = ticket.providerName)
-        DetailRow(label = "Category", value = ticket.category.displayName)
-        DetailRow(label = "Created", value = ticket.createdDate)
-        DetailRow(label = "Description", value = ticket.description)
-        SectionTitle("Status")
+        SectionTitle("Información")
+        DetailRow(label = "Proveedor", value = ticket.providerName)
+        DetailRow(label = "Categoría", value = ticket.category.displayName)
+        DetailRow(label = "Fecha de creación", value = ticket.createdDate)
+        DetailRow(label = "Descripción", value = ticket.description)
+        SectionTitle("Estado")
         StatusSelector(
             selectedStatus = ticket.status,
             onStatusSelected = onStatusSelected
         )
         if (FeatureFlags.enablePriorityUpdate) {
-            SectionTitle("Priority")
+            SectionTitle("Prioridad")
             PrioritySelector(
                 selectedPriority = ticket.priority,
                 onPrioritySelected = onPrioritySelected

@@ -1,33 +1,37 @@
-# Technical Decisions
+# Decisiones técnicas
 
 ## MVVM
 
-The app uses a simple MVVM structure because it keeps composables focused on UI layout and user events. ViewModels hold screen state and call the repository for ticket operations, which makes the demo easy to explain without adding unnecessary architecture layers.
+La app usa una estructura MVVM simple porque mantiene los composables enfocados en la interfaz y los eventos del usuario. Los ViewModels conservan el estado de pantalla y llaman al repositorio para las operaciones de tickets, lo que hace que la demo sea fácil de explicar sin agregar capas innecesarias.
 
-## Mock Repository
+## Repositorio mock
 
-`MockTicketRepository` keeps provider support tickets in memory. This is enough for the exam PoC because the app does not need persistence or a real backend, but the repository interface keeps the app ready to swap in a network-backed implementation later.
+`MockTicketRepository` mantiene los tickets de soporte en memoria. Esto es suficiente para la PoC del examen porque la app no necesita persistencia ni backend real, pero la interfaz del repositorio deja preparada la app para una implementación con red más adelante.
 
-## Event-Based Communication
+## Comunicación reactiva
 
-The repository owns a `MutableStateFlow<List<Ticket>>` and exposes it as `StateFlow<List<Ticket>>`. Ticket list and detail ViewModels observe that flow, so updates are pushed to the UI automatically.
+El repositorio posee un `MutableStateFlow<List<Ticket>>` y lo expone como `StateFlow<List<Ticket>>`. Los ViewModels de lista y detalle observan ese flujo, por lo que los cambios se reflejan automáticamente en la UI.
 
-## Ticket Creation
+## Creación de tickets
 
-When a ticket is saved, the create ViewModel validates required fields and calls `repository.createTicket(...)`. The repository appends the new ticket to the flow, and the list screen receives the updated list immediately.
+Cuando se guarda un ticket, el ViewModel de creación valida los campos obligatorios y llama a `repository.createTicket(...)`. El repositorio agrega el nuevo ticket al flujo y la pantalla de lista recibe la lista actualizada inmediatamente.
 
-## Priority Reordering
+## Reordenamiento por prioridad
 
-`TicketListViewModel` sorts tickets by priority using High, Medium, then Low. When the detail screen changes a ticket priority, the repository updates the flow and the list ViewModel emits the reordered list.
+`TicketListViewModel` ordena los tickets por prioridad usando Alta, Media y Baja. Cuando la pantalla de detalle cambia la prioridad de un ticket, el repositorio actualiza el flujo y el ViewModel de lista emite la lista reordenada.
 
 ## Feature Flags
 
-Feature flags live in `core/featureflags/FeatureFlags.kt`. `enableTicketCreation` controls the create ticket FAB, and `enablePriorityUpdate` controls whether the priority selector appears in the detail screen.
+Los feature flags viven en `core/featureflags/FeatureFlags.kt`. `enableTicketCreation` controla el acceso al flujo de creación de tickets: si está activo se muestra el FAB y se permite navegar a la pantalla de creación; si está inactivo se oculta el FAB y la navegación queda bloqueada desde la app.
 
-## Future Backend Integration
+`enablePriorityUpdate` controla si se permite modificar prioridades: si está activo se muestra el selector de prioridad en el detalle; si está inactivo el usuario solo ve la prioridad actual.
 
-The data layer includes DTOs, a mapper, and a Retrofit `TicketApiService` with the endpoints from `contracts/tickets-api.yaml`. The app still uses mock data, but the networking boundary is prepared.
+Esta estrategia fue elegida por ser simple, mantenible y suficiente para una PoC/MVP. No se usó Remote Config ni una solución más compleja para evitar sobreingeniería.
 
-## Avoiding Extra Complexity
+## Integración futura con backend
 
-The app intentionally avoids Room, Firebase, dependency injection, remote config, and complex navigation frameworks. Manual navigation and in-memory StateFlow are enough for the required programmed behavior.
+La capa de datos incluye DTOs, un mapper y un `TicketApiService` de Retrofit con los endpoints de `contracts/tickets-api.yaml`. La app sigue usando datos mock, pero el límite de red queda preparado.
+
+## Complejidad evitada
+
+La app evita intencionalmente Room, Firebase, inyección de dependencias, Remote Config y frameworks de navegación complejos. La navegación manual y el StateFlow en memoria son suficientes para el comportamiento requerido.

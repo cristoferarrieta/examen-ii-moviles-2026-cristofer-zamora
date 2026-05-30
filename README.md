@@ -38,11 +38,11 @@ Then run the Android app from Android Studio or install the generated debug APK 
 - Ticket list using `LazyColumn`
 - Ticket detail screen
 - Create ticket form
-- Status updates: Open, In Progress, Resolved, Closed
-- Priority updates: Low, Medium, High
+- Status updates shown as: Abierto, En proceso, Resuelto, Cerrado
+- Priority updates shown as: Baja, Media, Alta
 - Reactive list updates through StateFlow
 - Priority-based ordering with High tickets first
-- Feature flags for ticket creation and priority updates
+- Feature flags for ticket creation (`enableTicketCreation`) and priority updates (`enablePriorityUpdate`)
 - Mock repository with realistic Panini provider ticket data
 - Retrofit API service and DTOs prepared for future backend integration
 

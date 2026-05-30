@@ -48,7 +48,7 @@ fun TicketCard(
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                text = "${ticket.category.displayName} • ${ticket.createdDate}",
+                text = "${ticket.category.displayName} - ${ticket.createdDate}",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

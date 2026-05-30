@@ -25,7 +25,7 @@ class LoginViewModel {
     fun login(): Boolean {
         val state = _uiState.value
         return if (state.email.isBlank() || state.password.isBlank()) {
-            _uiState.value = state.copy(errorMessage = "Email and password are required.")
+            _uiState.value = state.copy(errorMessage = "El correo y la contraseña son obligatorios.")
             false
         } else {
             true

@@ -1,7 +1,7 @@
 package com.cristofer.paninisupportmobile.domain.model
 
 enum class TicketPriority(val displayName: String, val sortOrder: Int) {
-    HIGH("High", 0),
-    MEDIUM("Medium", 1),
-    LOW("Low", 2)
+    HIGH("Alta", 0),
+    MEDIUM("Media", 1),
+    LOW("Baja", 2)
 }

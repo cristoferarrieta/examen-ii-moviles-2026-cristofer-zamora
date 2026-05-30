@@ -6,10 +6,12 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import com.cristofer.paninisupportmobile.core.featureflags.FeatureFlags
 import com.cristofer.paninisupportmobile.data.repository.TicketRepositoryProvider
 import com.cristofer.paninisupportmobile.navigation.AppScreen
 import com.cristofer.paninisupportmobile.ui.screens.login.LoginScreen
@@ -53,7 +55,11 @@ private fun PaniniSupportApp() {
             TicketListScreen(
                 viewModel = viewModel,
                 onTicketClick = { currentScreen = AppScreen.TicketDetail(it) },
-                onCreateTicket = { currentScreen = AppScreen.CreateTicket }
+                onCreateTicket = {
+                    if (FeatureFlags.enableTicketCreation) {
+                        currentScreen = AppScreen.CreateTicket
+                    }
+                }
             )
         }
 
@@ -69,13 +75,19 @@ private fun PaniniSupportApp() {
         }
 
         AppScreen.CreateTicket -> {
-            BackHandler { currentScreen = AppScreen.TicketList }
-            val viewModel = remember { CreateTicketViewModel(repository) }
-            CreateTicketScreen(
-                viewModel = viewModel,
-                onBack = { currentScreen = AppScreen.TicketList },
-                onTicketCreated = { currentScreen = AppScreen.TicketList }
-            )
+            if (FeatureFlags.enableTicketCreation) {
+                BackHandler { currentScreen = AppScreen.TicketList }
+                val viewModel = remember { CreateTicketViewModel(repository) }
+                CreateTicketScreen(
+                    viewModel = viewModel,
+                    onBack = { currentScreen = AppScreen.TicketList },
+                    onTicketCreated = { currentScreen = AppScreen.TicketList }
+                )
+            } else {
+                LaunchedEffect(Unit) {
+                    currentScreen = AppScreen.TicketList
+                }
+            }
         }
     }
 }

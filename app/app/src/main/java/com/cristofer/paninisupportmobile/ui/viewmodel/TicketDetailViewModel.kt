@@ -23,7 +23,7 @@ class TicketDetailViewModel(
         .map { tickets ->
             val ticket = tickets.firstOrNull { it.id == ticketId }
             if (ticket == null) {
-                UiState.Error("Ticket not found.")
+                UiState.Error("No se encontró el ticket.")
             } else {
                 UiState.Success(ticket)
             }
