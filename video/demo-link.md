@@ -1,3 +1,2 @@
 # Demo Video
-
-Pending: add public Google Drive or YouTube link before submission.
+https://drive.google.com/file/d/10wC_P0Nh5ydiTZT0O3Y_iQvRnMqQABDK/view?usp=drive_link
