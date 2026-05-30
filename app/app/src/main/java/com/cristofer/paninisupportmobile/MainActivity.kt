@@ -15,6 +15,7 @@ import com.cristofer.paninisupportmobile.core.featureflags.FeatureFlags
 import com.cristofer.paninisupportmobile.data.repository.TicketRepositoryProvider
 import com.cristofer.paninisupportmobile.navigation.AppScreen
 import com.cristofer.paninisupportmobile.ui.screens.login.LoginScreen
+import com.cristofer.paninisupportmobile.ui.screens.settings.FeatureFlagsScreen
 import com.cristofer.paninisupportmobile.ui.screens.tickets.CreateTicketScreen
 import com.cristofer.paninisupportmobile.ui.screens.tickets.TicketDetailScreen
 import com.cristofer.paninisupportmobile.ui.screens.tickets.TicketListScreen
@@ -55,6 +56,7 @@ private fun PaniniSupportApp() {
             TicketListScreen(
                 viewModel = viewModel,
                 onTicketClick = { currentScreen = AppScreen.TicketDetail(it) },
+                onOpenSettings = { currentScreen = AppScreen.FeatureFlags },
                 onCreateTicket = {
                     if (FeatureFlags.enableTicketCreation) {
                         currentScreen = AppScreen.CreateTicket
@@ -88,6 +90,13 @@ private fun PaniniSupportApp() {
                     currentScreen = AppScreen.TicketList
                 }
             }
+        }
+
+        AppScreen.FeatureFlags -> {
+            BackHandler { currentScreen = AppScreen.TicketList }
+            FeatureFlagsScreen(
+                onBack = { currentScreen = AppScreen.TicketList }
+            )
         }
     }
 }

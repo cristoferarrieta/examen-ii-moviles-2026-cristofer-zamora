@@ -5,4 +5,5 @@ sealed class AppScreen {
     data object TicketList : AppScreen()
     data class TicketDetail(val ticketId: String) : AppScreen()
     data object CreateTicket : AppScreen()
+    data object FeatureFlags : AppScreen()
 }
